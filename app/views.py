@@ -1,5 +1,8 @@
 from app import app
+from flask import jsonify
+import socket
 
 @app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+def index():
+    hostname = socket.gethostname()
+    return jsonify(message="Welcome to Tasks app! I am running inside {} pod!".format(hostname))
