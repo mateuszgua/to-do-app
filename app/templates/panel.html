@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body>
+    <h3>Panel</h3>
+
+
+    {% for task in tasks %}
+    <h1>{{ task.name }}</h1>
+    <h1>{{ task.description }}</h1>
+    <h1>{{ task.start_date }}</h1>
+    <h1>{{ task.end_date }}</h1>
+    <h1>{{ task.status }}</h1>
+    <h1>{{ task.priority }}</h1>
+    {% endfor %}
+
+    <form method="POST" action="/add">
+        <label>Title:</label><br>
+        <input type="text" name="name"><br>
+        <label>Description:</label><br>
+        <input type="text" name="description"><br>
+        <label>Start Date:</label><br>
+        <input type="text" name="start_date"><br>
+        <label>End Date:</label><br>
+        <input type="text" name="end_date"><br>
+        <label>Status:</label><br>
+        <input type="text" name="status"><br>
+        <label>Priority:</label><br>
+        <input type="text" name="priority"><br>
+        <input type="submit" value="Add task">
+    </form>
+</body>
+
+{% endblock %}

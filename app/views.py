@@ -9,21 +9,21 @@ from app import db
 
 @app.route("/")
 def index():
-    hostname = socket.gethostname()
-    return jsonify(message="Welcome to Tasks app! I am running inside {} pod!".format(hostname))
+    return render_template('index.html')
 
 
-@app.route("/tasks")
-def get_all_tasks():
+@app.route("/panel")
+def panel():
     _tasks = db.tododb.find()
     tasks = [task for task in _tasks]
 
-    return render_template('index.html', tasks=tasks)
+    return render_template('panel.html', tasks=tasks)
 
 
 @app.route("/add", methods=["POST"])
 def create_task():
     task_doc = {
+        'id': ObjectId(),
         'name': request.form["name"],
         'description': request.form["description"],
         'start_date': request.form["start_date"],
@@ -32,12 +32,11 @@ def create_task():
         'priority': request.form["priority"],
     }
     db.tododb.insert_one(task_doc)
-    return redirect(url_for('get_all_tasks'))
+    return redirect(url_for('panel'))
 
 
 @app.route("/task/<id>", methods=["PUT"])
 def update_task(id):
-    data = request.get_json(force=True)["task"]
     task_doc = {
         'name': request.form["name"],
         'description': request.form["description"],
@@ -62,7 +61,7 @@ def delete_task(id):
         message = "Task deleted successfully!"
     else:
         message = "No task found!"
-    return jsonify(message=message)
+    return render_template('panel.html', message=message)
 
 
 @app.route("/tasks/delete", methods=["POST"])
