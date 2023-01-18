@@ -1,6 +1,7 @@
-from flask import jsonify, request
+from flask import jsonify, request, render_template, redirect, url_for
 from bson.objectid import ObjectId
 import socket
+from flask_pymongo import MongoClient
 
 from app import app
 from app import db
@@ -10,23 +11,25 @@ def index():
     hostname = socket.gethostname()
     return jsonify(message="Welcome to Tasks app! I am running inside {} pod!".format(hostname))
 
-@app.route("/taks")
+@app.route("/tasks")
 def get_all_tasks():
-    tasks = db.task.find()
-    data = []
-    for task in tasks:
-        item = {
-            "id": str(task["_id"]),
-            "task": task["task"]
-        }
-        data.append(item)
-    return jsonify(data=data)
+    _tasks = db.tododb.find()
+    tasks = [task for task in _tasks]
 
-@app.route("/task", methods=["POST"])
+    return render_template('index.html', tasks=tasks)
+
+@app.route("/add", methods=["POST"])
 def create_task():
-    data = request.get_json(force=True)
-    db.task.insert_one({"task": data["task"]})
-    return jsonify(message="Task saved successfully!")
+    task_doc = {
+        'name': request.form["name"],
+        'description': request.form["description"],
+        'start_date': request.form["start_date"],
+        'end_date': request.form["end_date"],
+        'status': request.form["status"],
+        'priority': request.form["priority"],
+    }
+    db.tododb.insert_one(task_doc)
+    return redirect(url_for('get_all_tasks'))
 
 @app.route("/task/<id>", methods=["PUT"])
 def update_task(id):
