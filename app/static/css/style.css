@@ -11,7 +11,10 @@
     --color-palette-2: #323435;
     --color-palette-3: #0d5824;
     --color-palette-4: #148a37;
-
+    --color-palette-5: #c2c7c3;
+    --color-palette-6: #922c13;
+    --color-palette-7: #ec3406;
+    --color-palette-8: #726e6d;
 }
 
 body {
@@ -47,6 +50,7 @@ body {
 .container {
     position: relative;
     width: 100%;
+    height: 100%;
     max-width: 75rem;
     padding: 0 1.5rem;
     margin: 0 auto;
@@ -114,6 +118,29 @@ body {
     background-color: var(--color-palette-4);
 }
 
+.btn.delete {
+    display: inline-block;
+    padding: 0.9rem 1.75rem;
+    border-radius: 17px;
+    background-color: var(--color-palette-6);
+    color: #fff;
+    font-size: 1rem;
+    letter-spacing: 0.4px;
+    min-width: 125px;
+    text-align: center;
+    text-transform: capitalize;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.btn.delete:hover {
+    background-color: var(--color-palette-7);
+}
+
 
 .section {
     position: relative;
@@ -125,6 +152,20 @@ body {
     margin-top: 1rem;
 }
 
+
+.form-input {
+    display: flex;
+    padding: 0.7rem 1.5rem;
+    background: var(--color-palette-5);
+    border: 2px solid var(--color-palette-4);
+    width: 30%;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--bg-color);
+    outline: none;
+}
 
 /* ---------- Navbar styles ---------- */
 
@@ -195,8 +236,6 @@ nav.container {
 }
 
 .main-page .container {
-    height: calc(100vh - 120px);
-    height: 600px;
     align-items: center;
 }
 
@@ -208,13 +247,13 @@ nav.container {
     width: 100%;
     justify-content: center;
     align-items: center;
-    margin-top: 20%;
+    margin-top: 10%;
 }
 
 .main-page .heading {
     font-size: 4rem;
     text-align: center;
-    color: var(--color-palette-0);
+    color: var(--text-color);
 }
 
 .main-page .text {
@@ -232,4 +271,100 @@ nav.container {
 .main-page .btn {
     margin: 2rem 5rem;
     align-items: center;
+}
+
+/* ---------- Panel section styles ---------- */
+
+.panel {
+    padding: 120px 0;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.panel .container {
+    align-items: center;
+}
+
+.panel .sub-heading {
+    margin-bottom: 0.7rem;
+    font-size: 2rem;
+    text-align: center;
+    color: var(--text-color);
+
+}
+
+.panel-info {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.panel .heading {
+    font-size: 4rem;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.panel .panel-tasks {
+    justify-content: center;
+}
+
+.panel .form-container {
+    margin-top: 100px;
+}
+
+.panel .panel-list {
+    align-items: center;
+    width: 50%;
+    font-size: 1rem;
+    margin: 0.8rem 1rem;
+    background-color: var(--color-palette-5);
+    border-radius: 20px;
+}
+
+.panel .form-input {
+    margin-top: 20px;
+    display: flex;
+    width: 80%;
+    margin: 0.5rem 0;
+    margin-left: 10%;
+    opacity: 0.7;
+}
+
+.panel .text {
+    text-align: center;
+    font-size: 1rem;
+    margin: 0.8rem 0;
+    color: var(--bg-color);
+}
+
+.panel .cta {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel .btn {
+    align-items: center;
+    margin-left: 10%;
+}
+
+.panel .btn.delete {
+    margin-top: 10px;
+    align-items: center;
+}
+
+.panel .panel-add {
+    align-items: center;
+    width: 50%;
+    font-size: 1rem;
+    margin: 0.8rem 1rem;
+    background-color: var(--color-palette-5);
+    border-radius: 20px;
+}
+
+.panel .label {
+    margin-left: 10%;
 }
