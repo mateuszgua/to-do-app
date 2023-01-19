@@ -1,20 +1,26 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 
-<form action="/add" method="POST">
-    <input type="text" name="name">
-    <input type="text" name="description">
-    <input type="text" name="start_date">
-    <input type="text" name="end_date">
-    <input type="text" name="status">
-    <input type="text" name="priority">
-    <input type="submit">
-</form>
+{% block content %}
 
-{% for task in tasks %}
-    <h1>{{ task.name }}</h1>
-    <h1>{{ task.description }}</h1>
-    <h1>{{ task.start_date }}</h1>
-    <h1>{{ task.end_date }}</h1>
-    <h1>{{ task.status }}</h1>
-    <h1>{{ task.priority }}</h1>
-{% endfor %}
+<body>
+    <main>
+        <section class="main-page">
+            <div class="container">
+                <div class="showcase-info">
+                    <h3 class="sub-heading">abc</h3>
+                    <h1 class="heading">Apllication for daily tasks.</h1>
+                    <p class="text">Please login or register for use application.</p>
+                    <div class="cta">
+                        <a href="#" class="btn">Login</a>
+                    </div>
+                    <div class="cta">
+                        <a href="#" class="btn">Register</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+
+{% endblock %}
