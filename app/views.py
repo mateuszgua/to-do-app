@@ -1,7 +1,8 @@
-from flask import jsonify, request, render_template, redirect, url_for
+from flask import jsonify, request, render_template, redirect, url_for, session
 from bson.objectid import ObjectId
 import socket
 from flask_pymongo import MongoClient
+import bcrypt
 
 from app import app
 from app import db
@@ -20,7 +21,39 @@ def panel():
     return render_template('panel.html', tasks=tasks)
 
 
-@app.route("/add", methods=["POST"])
+@app.route("/login", methods=["POST"])
+def login():
+    users = db.users
+    login_user = users.find_one({"name": request.form["name"]})
+
+    if login_user:
+        if bcrypt.hashpw(request.form["password"].encode("utf-8"), login_user["password"].encode("utf-8")) == login_user["password"].encode("utf-8"):
+            session["name"] = request.form["name"]
+            return redirect(url_for("panel"))
+
+    return "Invalid username or password"
+
+
+@ app.route("/register", methods=["POST", "GET"])
+def register():
+    if request.method == "POST":
+        # TODO dodać bazę user
+        users = db.users
+        existing_user = users.find_one({"name": request.form["name"]})
+
+        if existing_user is None:
+            hashpass = bcrypt.hashpw(
+                request.form["password"].encode("utf-8"), bcrypt.gensalt())
+            users.insert({"name": request.form["name"], "password": hashpass})
+            session["name"] = request.form["name"]
+            return redirect(url_for("panel"))
+
+        return "That username already exist!"
+
+    return render_template("register.html")
+
+
+@ app.route("/add", methods=["POST"])
 def create_task():
     task_doc = {
         'id': ObjectId(),
@@ -35,7 +68,7 @@ def create_task():
     return redirect(url_for('panel'))
 
 
-@app.route("/task/edit/<task_id>", methods=["POST"])
+@ app.route("/task/edit/<task_id>", methods=["POST"])
 def update_task(task_id):
     edit_name = request.form["name"]
     edit_description = request.form["description"]
