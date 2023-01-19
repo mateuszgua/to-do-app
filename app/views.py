@@ -35,8 +35,8 @@ def create_task():
     return redirect(url_for('panel'))
 
 
-@app.route("/task/<id>", methods=["PUT"])
-def update_task(id):
+@app.route("/task/<task_id>", methods=["POST"])
+def update_task(task_id):
     task_doc = {
         'name': request.form["name"],
         'description': request.form["description"],
@@ -45,23 +45,23 @@ def update_task(id):
         'status': request.form["status"],
         'priority': request.form["priority"],
     }
-    response = db.tododb.update_one({"id": ObjectId(id)},
-                                    {"$set": task_doc})
+    response = db.tododb.update_one({"id": ObjectId(task_id)},
+                                    {"$set": {'name': request.form["name"]}})
     if response.matched_count:
         message = "Task updated successfully!"
     else:
         message = "No task found!"
-    return render_template('panel.html', message=message)
+    return redirect(url_for('panel', message=message))
 
 
-@app.route("/task/<id>", methods=["DELETE"])
-def delete_task(id):
-    response = db.tododb.delete_one({"id": ObjectId(id)})
+@app.route("/task/<task_id>", methods=["POST"])
+def delete_task(task_id):
+    response = db.tododb.delete_one({"id": ObjectId(task_id)})
     if response.deleted_count:
         message = "Task deleted successfully!"
     else:
         message = "No task found!"
-    return render_template('panel.html', message=message)
+    return redirect(url_for('panel', message=message))
 
 
 @app.route("/tasks/delete", methods=["POST"])

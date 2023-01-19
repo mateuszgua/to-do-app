@@ -7,12 +7,20 @@
 
 
     {% for task in tasks %}
-    <h1>{{ task.name }}</h1>
-    <h1>{{ task.description }}</h1>
-    <h1>{{ task.start_date }}</h1>
-    <h1>{{ task.end_date }}</h1>
-    <h1>{{ task.status }}</h1>
-    <h1>{{ task.priority }}</h1>
+    <form method="POST" action="{{ url_for('update_task', task_id=task.id) }}"></form>
+    <p type="text" name="id">{{task.id}}</p><br>
+    <input type="text" name="name" value={{task.name}}><br>
+    <input type="text" name="description" value={{task.description}}><br>
+    <input type="text" name="start_date" value={{task.start_date}}><br>
+    <input type="text" name="end_date" value={{task.end_date}}><br>
+    <input type="text" name="status" value={{task.status}}><br>
+    <input type="text" name="priority" value={{task.priority}}><br>
+    <input class="btn" type="submit" value="Edit" name="action">
+    </form>
+    <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}">
+        <input class="btn" type="submit" name="delete" value="Delete"
+            onclick="return confirm('Are you want to delte this task?')">
+    </form>
     {% endfor %}
 
     <form method="POST" action="/add">
