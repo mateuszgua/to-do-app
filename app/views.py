@@ -35,18 +35,21 @@ def create_task():
     return redirect(url_for('panel'))
 
 
-@app.route("/task/<task_id>", methods=["POST"])
+@app.route("/task/edit/<task_id>", methods=["POST"])
 def update_task(task_id):
-    task_doc = {
-        'name': request.form["name"],
-        'description': request.form["description"],
-        'start_date': request.form["start_date"],
-        'end_date': request.form["end_date"],
-        'status': request.form["status"],
-        'priority': request.form["priority"],
-    }
-    response = db.tododb.update_one({"id": ObjectId(task_id)},
-                                    {"$set": {'name': request.form["name"]}})
+    edit_name = request.form["name"]
+    edit_description = request.form["description"]
+    edit_start_date = request.form["start_date"]
+    edit_end_date = request.form["end_date"]
+    edit_status = request.form["status"]
+    edit_priority = request.form["priority"]
+    response = db.tododb.update_many({"id": ObjectId(task_id)},
+                                     {"$set": {'name': edit_name,
+                                               'description': edit_description,
+                                               'start_date': edit_start_date,
+                                               'end_date': edit_end_date,
+                                               'status': edit_status,
+                                               'priority': edit_priority}},)
     if response.matched_count:
         message = "Task updated successfully!"
     else:
@@ -54,7 +57,7 @@ def update_task(task_id):
     return redirect(url_for('panel', message=message))
 
 
-@app.route("/task/<task_id>", methods=["POST"])
+@ app.route("/task/<task_id>", methods=["POST"])
 def delete_task(task_id):
     response = db.tododb.delete_one({"id": ObjectId(task_id)})
     if response.deleted_count:
@@ -64,6 +67,6 @@ def delete_task(task_id):
     return redirect(url_for('panel', message=message))
 
 
-@app.route("/tasks/delete", methods=["POST"])
+@ app.route("/tasks/delete", methods=["POST"])
 def delete_all_tasks():
     response = db.tododb.remove()
