@@ -5,7 +5,7 @@ from flask_pymongo import MongoClient
 import bcrypt
 
 from app import app
-from app import db
+from app import db, userdb
 
 
 @app.route("/")
@@ -23,29 +23,30 @@ def panel():
 
 @app.route("/login", methods=["POST"])
 def login():
-    users = db.users
+    users = userdb.users
     login_user = users.find_one({"name": request.form["name"]})
 
     if login_user:
         if bcrypt.hashpw(request.form["password"].encode("utf-8"), login_user["password"].encode("utf-8")) == login_user["password"].encode("utf-8"):
             session["name"] = request.form["name"]
             return redirect(url_for("panel"))
-
-    return "Invalid username or password"
-
+    else:
+        return "Invalid username or password"
+    
+    return render_template("login.html")
 
 @ app.route("/register", methods=["POST", "GET"])
 def register():
     if request.method == "POST":
         # TODO dodać bazę user
-        users = db.users
+        users = userdb.users
         existing_user = users.find_one({"name": request.form["name"]})
 
         if existing_user is None:
             hashpass = bcrypt.hashpw(
                 request.form["password"].encode("utf-8"), bcrypt.gensalt())
-            users.insert({"name": request.form["name"], "password": hashpass})
-            session["name"] = request.form["name"]
+            users.insert_one({"name": request.form["name"], "password": hashpass})
+            # session["name"] = request.form["name"]
             return redirect(url_for("panel"))
 
         return "That username already exist!"
