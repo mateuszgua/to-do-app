@@ -1,4 +1,4 @@
-from flask import jsonify, request, render_template, redirect, url_for, session
+from flask import jsonify, request, render_template, redirect, url_for, session, flash
 from bson.objectid import ObjectId
 import socket
 from flask_pymongo import MongoClient
@@ -6,6 +6,7 @@ import bcrypt
 
 from app import app
 from app import db, userdb
+from app.models import check_password
 
 
 @app.route("/")
@@ -21,19 +22,26 @@ def panel():
     return render_template('panel.html', tasks=tasks)
 
 
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["POST", "GET"])
 def login():
-    users = userdb.users
-    login_user = users.find_one({"name": request.form["name"]})
+    if request.method == "POST":
+        users = userdb.users
+        login_user = users.find_one({"name": request.form["name"]})
+        # user = User()
+        if login_user:
+            if check_password(login_user["password"], request.form["password"]):
+                print("Hello !!!!!!!!!!!!!!!!!!!!")
+                # if bcrypt.hashpw(request.form["password"].encode("utf-8"), login_user["password"].encode("utf-8")) == login_user["password"].encode("utf-8"):
+                return redirect(url_for("panel"))
+            else:
+                # flash("Invalid username or password!")
+                return redirect(url_for("login"))
+        else:
+            flash("Invalid username")
+            return redirect(url_for("login"))
 
-    if login_user:
-        if bcrypt.hashpw(request.form["password"].encode("utf-8"), login_user["password"].encode("utf-8")) == login_user["password"].encode("utf-8"):
-            session["name"] = request.form["name"]
-            return redirect(url_for("panel"))
-    else:
-        return "Invalid username or password"
-    
     return render_template("login.html")
+
 
 @ app.route("/register", methods=["POST", "GET"])
 def register():
@@ -45,11 +53,12 @@ def register():
         if existing_user is None:
             hashpass = bcrypt.hashpw(
                 request.form["password"].encode("utf-8"), bcrypt.gensalt())
-            users.insert_one({"name": request.form["name"], "password": hashpass})
-            # session["name"] = request.form["name"]
+            users.insert_one(
+                {"name": request.form["name"], "password": hashpass})
             return redirect(url_for("panel"))
 
-        return "That username already exist!"
+        flash("That username already exist!")
+        return redirect(url_for('register'))
 
     return render_template("register.html")
 
@@ -85,20 +94,20 @@ def update_task(task_id):
                                                'status': edit_status,
                                                'priority': edit_priority}},)
     if response.matched_count:
-        message = "Task updated successfully!"
+        flash("Task updated successfully!")
     else:
-        message = "No task found!"
-    return redirect(url_for('panel', message=message))
+        flash("No task found!")
+    return redirect(url_for('panel'))
 
 
 @ app.route("/task/<task_id>", methods=["POST"])
 def delete_task(task_id):
     response = db.tododb.delete_one({"id": ObjectId(task_id)})
     if response.deleted_count:
-        message = "Task deleted successfully!"
+        flash("Task deleted successfully!")
     else:
-        message = "No task found!"
-    return redirect(url_for('panel', message=message))
+        flash("No task found!")
+    return redirect(url_for('panel'))
 
 
 @ app.route("/tasks/delete", methods=["POST"])
