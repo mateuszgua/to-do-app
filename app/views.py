@@ -2,7 +2,9 @@ from flask import jsonify, request, render_template, redirect, url_for, session,
 from bson.objectid import ObjectId
 import socket
 from flask_pymongo import MongoClient
+from passlib.hash import pbkdf2_sha256
 import bcrypt
+import uuid
 
 from app import app
 from app import db, userdb
@@ -22,23 +24,29 @@ def panel():
     return render_template('panel.html', tasks=tasks)
 
 
+def start_session(user):
+    del user["password"]
+    session["logged_in"] = True
+    session["user"] = user
+    return jsonify(user), 200
+
+
 @app.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == "POST":
         users = userdb.users
         login_user = users.find_one({"name": request.form["name"]})
-        # user = User()
+
         if login_user:
-            if check_password(login_user["password"], request.form["password"]):
-                print("Hello !!!!!!!!!!!!!!!!!!!!")
-                # if bcrypt.hashpw(request.form["password"].encode("utf-8"), login_user["password"].encode("utf-8")) == login_user["password"].encode("utf-8"):
+            if pbkdf2_sha256.verify(request.form["password"], login_user["password"]):
+                start_session(login_user)
                 return redirect(url_for("panel"))
-            else:
-                # flash("Invalid username or password!")
-                return redirect(url_for("login"))
-        else:
-            flash("Invalid username")
-            return redirect(url_for("login"))
+
+            flash("Invalid username or password!")
+            return render_template("login.html")
+
+        flash("Invalid username")
+        return redirect(url_for("login"))
 
     return render_template("login.html")
 
@@ -46,21 +54,32 @@ def login():
 @ app.route("/register", methods=["POST", "GET"])
 def register():
     if request.method == "POST":
-        # TODO dodać bazę user
+        user = {
+            "_id": uuid.uuid4().hex,
+            "name": request.form["name"],
+            "email": request.form["email"],
+            "password": request.form["password"]
+        }
+
         users = userdb.users
-        existing_user = users.find_one({"name": request.form["name"]})
+        user["password"] = pbkdf2_sha256.encrypt(user["password"])
+        existing_user = users.find_one({"name": user["name"]})
 
         if existing_user is None:
-            hashpass = bcrypt.hashpw(
-                request.form["password"].encode("utf-8"), bcrypt.gensalt())
-            users.insert_one(
-                {"name": request.form["name"], "password": hashpass})
+            users.insert_one(user)
+            start_session(user)
             return redirect(url_for("panel"))
 
-        flash("That username already exist!")
+        flash("That username: " + user["name"] + " already exist!")
         return redirect(url_for('register'))
 
     return render_template("register.html")
+
+
+@ app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
 
 @ app.route("/add", methods=["POST"])
