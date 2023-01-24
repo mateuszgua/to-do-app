@@ -20,42 +20,54 @@
 </div>
 {% endfor %}
 
+
 <body>
-    <h3>Panel</h3>
-
-
-    {% for task in tasks %}
-    <form method="POST" action="{{ url_for('update_task', task_id=task.id) }}">
-        <p type="text" name="id">{{task.id}}</p><br>
-        <input type="text" name="name" value={{task.name}}><br>
-        <input type="text" name="description" value={{task.description}}><br>
-        <input type="text" name="start_date" value={{task.start_date}}><br>
-        <input type="text" name="end_date" value={{task.end_date}}><br>
-        <input type="text" name="status" value={{task.status}}><br>
-        <input type="text" name="priority" value={{task.priority}}><br>
-        <input class="btn" type="submit" value="Edit" name="action">
-    </form>
-    <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}">
-        <input class="btn" type="submit" name="delete" value="Delete"
-            onclick="return confirm('Are you want to delte this task?')">
-    </form>
-    {% endfor %}
-
-    <form method="POST" action="/add">
-        <label>Title:</label><br>
-        <input type="text" name="name"><br>
-        <label>Description:</label><br>
-        <input type="text" name="description"><br>
-        <label>Start Date:</label><br>
-        <input type="text" name="start_date"><br>
-        <label>End Date:</label><br>
-        <input type="text" name="end_date"><br>
-        <label>Status:</label><br>
-        <input type="text" name="status"><br>
-        <label>Priority:</label><br>
-        <input type="text" name="priority"><br>
-        <input type="submit" value="Add task">
-    </form>
+    <main>
+        <section class="panel">
+            <div class="container">
+                <div class="panel-tasks">
+                    <h3 class="sub-heading">Your tasks</h3>
+                    {% for task in tasks %}
+                    <div class="panel-list">
+                        <form method="POST" class="form-container"
+                            action="{{ url_for('update_task', task_id=task.id) }}">
+                            <input type="text" class="form-input" name="name" placeholder="Task title"
+                                value={{task.name}}>
+                            <input type="text" class="form-input" name="description" placeholder="Task description"
+                                value={{task.description}}>
+                            <input type="date" class="form-input" name="start_date" value={{task.start_date}}>
+                            <input type="date" class="form-input" name="end_date" value={{task.end_date}}>
+                            <input type="text" class="form-input" name="status" value={{task.status}}>
+                            <input type="text" class="form-input" name="priority" value={{task.priority}}>
+                            <input type="submit" class="btn" value="Save" name="action">
+                        </form>
+                        <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}">
+                            <input class="btn delete" type="submit" name="delete" value="Delete"
+                                onclick="return confirm('Are you want to delte this task?')">
+                        </form>
+                    </div>
+                    {% endfor %}
+                    <div class="panel-add">
+                        <form method="POST" action="/add">
+                            <label class="label">Title:</label><br>
+                            <input type="text" class="form-input" name="name"><br>
+                            <label class="label">Description:</label><br>
+                            <input type="text" class="form-input" name="description"><br>
+                            <label class="label">Start Date:</label><br>
+                            <input type="text" class="form-input" name="start_date"><br>
+                            <label class="label">End Date:</label><br>
+                            <input type="text" class="form-input" name="end_date"><br>
+                            <label class="label">Status:</label><br>
+                            <input type="text" class="form-input" name="status"><br>
+                            <label class="label">Priority:</label><br>
+                            <input type="text" class="form-input" name="priority"><br>
+                            <input type="submit" class="btn" value="Add task">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 </body>
 
 {% endblock %}
