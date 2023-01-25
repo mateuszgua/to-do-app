@@ -1,12 +1,20 @@
 import os
 from flask import Flask
 from flask_pymongo import MongoClient
-from app import models
+from flask_session import Session
+
+from app.config import Config
 
 app = Flask(__name__)
-app.secret_key = b'\xcc^\x91\xea\x17-\xd0W\x03\xa7\xf8J0\xac8\xc5'
+app.secret_key = Config.SECRET_KEY
+
 client = MongoClient('mongodb://mongodb:27017/dockerapp')
 db = client.tododb
-userdb = client.users
+collection_user = db.users
+collection_task = db.tasks
+
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 from app import views
