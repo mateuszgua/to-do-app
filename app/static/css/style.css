@@ -214,6 +214,19 @@ nav.container {
     text-decoration: none;
 }
 
+.nav-text {
+    position: relative;
+    display: inline-block;
+    margin: 0 2rem;
+    font-size: 2rem;
+    letter-spacing: 0.5px;
+    color: var(--text-color);
+    font-weight: 500;
+    opacity: 0.9;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
 .nav-link:hover,
 .nav-link.active {
     color: var(--color-palette-1);
