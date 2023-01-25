@@ -135,3 +135,13 @@ def delete_task(task_id):
 @ app.route("/tasks/delete", methods=["POST"])
 def delete_all_tasks():
     response = collection_task.remove()
+
+
+@ app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', e=e)
+
+
+@ app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html', e=e)
