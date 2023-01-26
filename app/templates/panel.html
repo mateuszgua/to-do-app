@@ -40,8 +40,22 @@
                                 value={{task.description}}>
                             <input type="date" class="form-input" name="start_date" value={{task.start_date}}>
                             <input type="date" class="form-input" name="end_date" value={{task.end_date}}>
-                            <input type="text" class="form-input" name="status" value={{task.status}}>
-                            <input type="text" class="form-input" name="priority" value={{task.priority}}>
+                            <div class="dropdown">
+                                <select class="dropbtn" name="status" id="status">
+                                    <option selected disabled hidden>{{task.status}}</option>
+                                    <option value="To do">To do</option>
+                                    <option value="In progress">In progress</option>
+                                    <option value="Complete">Complete</option>
+                                </select>
+                            </div>
+                            <div class="dropdown">
+                                <select class="dropbtn" name="priority" id="priority">
+                                    <option selected disabled hidden>{{task.priority}}</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
                             <input type="submit" class="btn" value="Save" name="action">
                         </form>
                         <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}">
@@ -62,9 +76,21 @@
                             <label class="label">End Date:</label>
                             <input type="date" class="form-input" name="end_date">
                             <label class="label">Status:</label>
-                            <input type="text" class="form-input" name="status">
+                            <div class="dropdown">
+                                <select class="dropbtn" name="status" id="status">
+                                    <option value="To do">To do</option>
+                                    <option value="In progress">In progress</option>
+                                    <option value="Complete">Complete</option>
+                                </select>
+                            </div>
                             <label class="label">Priority:</label>
-                            <input type="text" class="form-input" name="priority">
+                            <div class="dropdown">
+                                <select class="dropbtn" name="priority" id="priority">
+                                    <option value="Low">Low</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
                             <input type="submit" class="btn" value="Add task">
                         </form>
                     </div>

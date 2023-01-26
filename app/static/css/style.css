@@ -212,6 +212,42 @@ button {
     justify-content: center;
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    padding: 0.3rem 0;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--color-palette-5);
+    min-width: 160px;
+    width: 80%;
+    margin-left: 10%;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content option {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content option:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: var(--color-palette-5);
+}
 
 /* ---------- Navbar styles ---------- */
 
@@ -345,7 +381,6 @@ nav.container {
 .panel .container {
     align-items: center;
     height: auto;
-    overflow: auto;
 }
 
 .panel .sub-heading {
@@ -452,6 +487,25 @@ nav.container {
 .panel .label {
     margin-left: 10%;
     font-size: 1rem;
+}
+
+
+.dropbtn {
+    display: flex;
+    padding: 0.7rem 1.5rem;
+    background: var(--color-palette-5);
+    border: 2px solid var(--color-palette-4);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--bg-color);
+    outline: none;
+    margin-left: 10%;
+    width: 80%;
+    opacity: 0.7;
+    height: 3rem;
+    text-align: left;
 }
 
 /* ---------- Login section styles ---------- */
