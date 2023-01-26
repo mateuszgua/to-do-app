@@ -173,19 +173,24 @@ body {
     position: relative;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .triangle-icon {
-    align-items: center;
+    display: flex;
     color: orange;
 }
 
 .alert {
-    align-items: center;
+    display: flex;
     color: var(--color-palette-5);
+    justify-content: center;
+    align-items: center;
 }
 
 .flex-shrink-0 {
+    display: flex;
     align-items: center;
     color: var(--color-palette-5);
     width: 60px;
@@ -194,22 +199,23 @@ body {
 
 .text-message {
     width: 100%;
-    align-items: center;
-    text-align: center;
     font-size: 1.5rem;
-    margin: 0.8rem 0;
+    margin-left: 2rem;
     color: var(--color-palette-5);
+    justify-content: center;
+    align-items: center;
 }
 
 button {
     display: flex;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     color: var(--color-palette-5);
     background-color: var(--bg-color);
     font-size: 30px;
     align-items: center;
     justify-content: center;
+    margin-left: 2rem;
 }
 
 .dropdown {
@@ -414,7 +420,7 @@ nav.container {
 }
 
 .panel .panel-list {
-    height: 500px;
+    height: 530px;
     align-items: center;
     justify-content: center;
     width: 50%;
