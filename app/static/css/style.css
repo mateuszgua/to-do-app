@@ -141,6 +141,27 @@ body {
     background-color: var(--color-palette-7);
 }
 
+.btn.add {
+    display: inline-block;
+    padding: 0.9rem 1.75rem;
+    border-radius: 17px;
+    background-color: var(--color-palette-8);
+    border: 2px solid var(--color-palette-4);
+    color: #fff;
+    font-size: 1.5rem;
+    letter-spacing: 0.4px;
+    min-width: 300px;
+    height: 70px;
+    text-align: center;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.btn.add:hover {
+    background-color: var(--color-palette-4);
+}
 
 .section {
     position: relative;
@@ -377,30 +398,40 @@ nav.container {
 /* ---------- Panel section styles ---------- */
 
 .panel {
-    padding: 120px 0;
     width: 100%;
     overflow: hidden;
     position: relative;
     height: auto;
+    display: inline-flex;
+    flex-wrap: wrap;
 }
 
 .panel .container {
     align-items: center;
+    width: auto;
     height: auto;
 }
 
+
 .panel .sub-heading {
-    margin-top: 50px;
-    margin-bottom: 0.7rem;
-    font-size: 2rem;
+    width: 100%;
+    margin-top: 6rem;
+    margin-bottom: 4rem;
+    font-size: 4rem;
     text-align: center;
     color: var(--text-color);
 }
 
+.panel .btn.add {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+    margin-left: 40%;
+}
+
 .panel-info {
     width: 100%;
-    justify-content: center;
-    align-items: center;
     margin-top: 10%;
 }
 
@@ -411,6 +442,7 @@ nav.container {
 }
 
 .panel .panel-tasks {
+    width: auto;
     justify-content: center;
     height: auto;
 }
@@ -419,13 +451,30 @@ nav.container {
     margin-top: 20px;
 }
 
+.row {
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+.column {
+    float: left;
+    width: 30%;
+
+}
+
+.task-heading {
+    font-size: 2rem;
+    text-align: center;
+    color: var(--color-palette-4);
+}
+
 .panel .panel-list {
     height: 530px;
     align-items: center;
     justify-content: center;
-    width: 50%;
+    width: 90%;
     font-size: 1rem;
-    margin-left: 25%;
+    margin-left: 5%;
     background-color: var(--color-palette-5);
     border-radius: 20px;
 }
@@ -471,21 +520,23 @@ nav.container {
 }
 
 .panel .panel-add {
+    display: none;
     margin-top: 50px;
+    margin-bottom: 2rem;
     height: 600px;
     align-items: center;
     justify-content: center;
-    width: 50%;
+    width: 40%;
     font-size: 1rem;
-    margin-left: 25%;
+    margin-left: 30%;
     background-color: var(--color-palette-5);
     border-radius: 20px;
 }
 
 .panel .panel-add .sub-heading {
-    margin-top: 50px;
+    margin-top: 10px;
     margin-bottom: 0.7rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
     text-align: center;
     color: var(--color-palette-4);
 }
@@ -494,7 +545,6 @@ nav.container {
     margin-left: 10%;
     font-size: 1rem;
 }
-
 
 .dropbtn {
     display: flex;
