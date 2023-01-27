@@ -27,7 +27,7 @@
                 {% endfor %}
             </div>
             <h3 class="sub-heading">Your tasks</h3>
-            <button class="btn add" onclick="myFunction()">Add Task</button>
+            <button class="btn add" onclick="addNewTask()">Add Task</button>
             <div class="panel-add" id="panel-add" style="display: none;">
                 <h3 class="sub-heading">New Task</h3>
                 <form method="POST" action="/add">
@@ -106,7 +106,7 @@
                             {% for task in tasks %}
                             {% if task.status == "In progress" %}
                             <div class="panel-list">
-                                <h3 class="sub-heading">Task</h3>
+                                <h3 class="sub-heading"></h3>
                                 <form method="POST" class="form-container"
                                     action="{{ url_for('update_task', task_id=task.id) }}">
                                     <input type="text" class="form-input" name="name" placeholder="Task title"
@@ -146,7 +146,7 @@
                             {% for task in tasks %}
                             {% if task.status == "Complete" %}
                             <div class="panel-list">
-                                <h3 class="sub-heading">Task</h3>
+                                <h3 class="sub-heading"></h3>
                                 <form method="POST" class="form-container"
                                     action="{{ url_for('update_task', task_id=task.id) }}">
                                     <input type="text" class="form-input" name="name" placeholder="Task title"
@@ -186,9 +186,8 @@
             </div>
         </section>
     </main>
-
     <script>
-        function myFunction() {
+        function addNewTask() {
             var x = document.getElementById("panel-add");
             if (x.style.display === "none") {
                 x.style.display = "block";
