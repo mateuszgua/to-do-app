@@ -141,6 +141,27 @@ body {
     background-color: var(--color-palette-7);
 }
 
+.btn.add {
+    display: inline-block;
+    padding: 0.9rem 1.75rem;
+    border-radius: 17px;
+    background-color: var(--color-palette-8);
+    border: 2px solid var(--color-palette-4);
+    color: #fff;
+    font-size: 1.5rem;
+    letter-spacing: 0.4px;
+    min-width: 300px;
+    height: 70px;
+    text-align: center;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.btn.add:hover {
+    background-color: var(--color-palette-4);
+}
 
 .section {
     position: relative;
@@ -165,6 +186,94 @@ body {
     font-weight: 500;
     color: var(--bg-color);
     outline: none;
+}
+
+.message {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.triangle-icon {
+    display: flex;
+    color: orange;
+}
+
+.alert {
+    display: flex;
+    color: var(--color-palette-5);
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-shrink-0 {
+    display: flex;
+    align-items: center;
+    color: var(--color-palette-5);
+    width: 60px;
+    height: 60px;
+}
+
+.text-message {
+    width: 100%;
+    font-size: 1.5rem;
+    margin-left: 2rem;
+    color: var(--color-palette-5);
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    color: var(--color-palette-5);
+    background-color: var(--bg-color);
+    font-size: 30px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2rem;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    padding: 0.3rem 0;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--color-palette-5);
+    min-width: 160px;
+    width: 80%;
+    margin-left: 10%;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content option {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content option:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: var(--color-palette-5);
 }
 
 /* ---------- Navbar styles ---------- */
@@ -289,28 +398,40 @@ nav.container {
 /* ---------- Panel section styles ---------- */
 
 .panel {
-    padding: 120px 0;
     width: 100%;
     overflow: hidden;
     position: relative;
+    height: auto;
+    display: inline-flex;
+    flex-wrap: wrap;
 }
 
 .panel .container {
     align-items: center;
+    width: auto;
+    height: auto;
 }
 
+
 .panel .sub-heading {
-    margin-bottom: 0.7rem;
-    font-size: 2rem;
+    width: 100%;
+    margin-top: 6rem;
+    margin-bottom: 4rem;
+    font-size: 4rem;
     text-align: center;
     color: var(--text-color);
+}
 
+.panel .btn.add {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+    margin-left: 40%;
 }
 
 .panel-info {
     width: 100%;
-    justify-content: center;
-    align-items: center;
     margin-top: 10%;
 }
 
@@ -321,18 +442,39 @@ nav.container {
 }
 
 .panel .panel-tasks {
+    width: auto;
     justify-content: center;
+    height: auto;
 }
 
 .panel .form-container {
-    margin-top: 100px;
+    margin-top: 20px;
+}
+
+.row {
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+.column {
+    float: left;
+    width: 30%;
+
+}
+
+.task-heading {
+    font-size: 2rem;
+    text-align: center;
+    color: var(--color-palette-4);
 }
 
 .panel .panel-list {
+    height: 500px;
     align-items: center;
-    width: 50%;
+    justify-content: center;
+    width: 90%;
     font-size: 1rem;
-    margin: 0.8rem 1rem;
+    margin-left: 5%;
     background-color: var(--color-palette-5);
     border-radius: 20px;
 }
@@ -344,6 +486,14 @@ nav.container {
     margin: 0.5rem 0;
     margin-left: 10%;
     opacity: 0.7;
+}
+
+.panel .panel-list .sub-heading {
+    margin-top: 50px;
+    margin-bottom: 0.7rem;
+    font-size: 2rem;
+    text-align: center;
+    color: var(--color-palette-3);
 }
 
 .panel .text {
@@ -370,14 +520,180 @@ nav.container {
 }
 
 .panel .panel-add {
+    display: none;
+    margin-top: 50px;
+    margin-bottom: 2rem;
+    height: 600px;
     align-items: center;
-    width: 50%;
+    justify-content: center;
+    width: 40%;
     font-size: 1rem;
-    margin: 0.8rem 1rem;
+    margin-left: 30%;
     background-color: var(--color-palette-5);
     border-radius: 20px;
 }
 
+.panel .panel-add .sub-heading {
+    margin-top: 10px;
+    margin-bottom: 0.7rem;
+    font-size: 1.5rem;
+    text-align: center;
+    color: var(--color-palette-4);
+}
+
 .panel .label {
     margin-left: 10%;
+    font-size: 1rem;
+}
+
+.dropbtn {
+    display: flex;
+    padding: 0.7rem 1.5rem;
+    background: var(--color-palette-5);
+    border: 2px solid var(--color-palette-4);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--bg-color);
+    outline: none;
+    margin-left: 10%;
+    width: 80%;
+    opacity: 0.7;
+    height: 3rem;
+    text-align: left;
+}
+
+/* ---------- Login section styles ---------- */
+
+.login {
+    padding: 120px 0;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    justify-content: center;
+}
+
+.login .sub-heading {
+    display: flex;
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    color: var(--color-palette-4);
+    justify-content: center;
+}
+
+.login .login-box {
+    background-color: var(--color-palette-5);
+    border-radius: 20px;
+    height: 400px;
+    width: 50%;
+    margin-top: 10%;
+    margin-left: 25%;
+    justify-content: center;
+    align-items: center;
+}
+
+.login .label {
+    text-align: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.login .login-add {
+    text-align: left;
+    justify-content: center;
+    margin-left: 10%;
+    font-size: 1.3rem;
+}
+
+.login .form-input {
+    display: flex;
+    width: 80%;
+    margin-top: 10px;
+    opacity: 0.7;
+    color: black;
+}
+
+.login .text {
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 0.8rem 0;
+    color: black;
+}
+
+.login .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login .container {
+    align-items: center;
+}
+
+/* ---------- Register section styles ---------- */
+
+.register {
+    padding: 120px 0;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    justify-content: center;
+}
+
+.register .sub-heading {
+    display: flex;
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    color: var(--color-palette-4);
+    justify-content: center;
+}
+
+.register .register-box {
+    background-color: var(--color-palette-5);
+    border-radius: 20px;
+    height: 500px;
+    width: 50%;
+    margin-top: 10%;
+    margin-left: 25%;
+    justify-content: center;
+    align-items: center;
+}
+
+.register .label {
+    text-align: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.register .register-add {
+    text-align: left;
+    justify-content: center;
+    margin-left: 10%;
+    font-size: 1.3rem;
+}
+
+.register .form-input {
+    display: flex;
+    width: 80%;
+    margin-top: 10px;
+    opacity: 0.7;
+    color: black;
+}
+
+.register .text {
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 0.8rem 0;
+    color: black;
+}
+
+.register .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register .container {
+    align-items: center;
 }
