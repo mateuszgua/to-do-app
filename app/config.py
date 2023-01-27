@@ -8,6 +8,13 @@ load_dotenv(path.join(basedir, '.env'))
 
 
 class Config:
+
+    # Default settings
+    FLASK_ENV = 'development'
+    DEBUG = False
+    TESTING = False
+    WTF_CSRF_ENABLED = True
+
     SECRET_KEY = os.getenv("SECRET_KEY", default=None)
     SECURITY_PASSWORD_SALT = os.getenv("SECURITY_PASSWORD_SALT")
     SECURITY_PASSWORD_HASH = 'sha512_crypt'
@@ -17,4 +24,16 @@ class Config:
 
     HOST = '0.0.0.0'
     PORT = 5000
+
+
+class DevelopmentConfig(Config):
     DEBUG = True
+
+
+class TestingConfig(Config):
+    TESTING = True
+    WTF_CSRF_ENABLED = False
+
+
+class ProductionConfig(Config):
+    FLASK_ENV = 'production'
