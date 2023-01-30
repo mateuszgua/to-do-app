@@ -18,9 +18,11 @@ def index():
 @app.route("/panel")
 def panel():
     try:
-        # if "user" not in session:
-        #     is_user_login = None
-        #     return redirect(url_for("login"))
+        if "user" not in session:
+            is_user_login = None
+            # return redirect(url_for("login"))
+            flash("Problem for load session...")
+            return render_template("login.html")
         is_user_login = session["user"]
         user_name = session["user"]["name"]
         tasks = [task for task in collection_task.find({"user": user_name})]
