@@ -5,10 +5,10 @@ from flask_session import Session
 
 from app.config import Config
 
-app = Flask(__name__, static_url_path='', static_folder="./static")
+app = Flask(__name__, static_url_path='', static_folder="./app/static")
 app.secret_key = Config.SECRET_KEY
 
-client = MongoClient('mongodb://mongodb:27017/dockerapp')
+client = MongoClient('mongodb://mongodb:27017/dockerapp', connectTimeoutMS=30000, socketTimeoutMS=None, connect=False, maxPoolsize=1)
 db = client.tododb
 collection_user = db.users
 collection_task = db.tasks
