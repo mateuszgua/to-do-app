@@ -18,9 +18,9 @@ def index():
 @app.route("/panel")
 def panel():
     try:
-        # if "user" not in session:
-        #     is_user_login = None
-        #     return redirect(url_for("login"))
+        if "user" not in session:
+            is_user_login = None
+            return redirect(url_for("login"))
         is_user_login = session["user"]
         user_name = session["user"]["name"]
         tasks = [task for task in collection_task.find({"user": user_name})]
@@ -55,7 +55,7 @@ def login():
                 return render_template("login.html")
 
             flash("Invalid username")
-            return redirect(url_for("login"))
+            return render_template("login.html")
         except LoadUserProblem:
             error_description = LoadUserProblem()
             internal_server_error(error_description)
