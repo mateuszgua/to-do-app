@@ -5,7 +5,7 @@ from flask_session import Session
 
 from app.config import Config
 
-app = Flask(__name__, static_url_path='', static_folder="./app/static")
+app = Flask(__name__)
 app.secret_key = Config.SECRET_KEY
 
 client = MongoClient('mongodb://mongodb:27017/dockerapp', connectTimeoutMS=30000, socketTimeoutMS=None, connect=False, maxPoolsize=1)
