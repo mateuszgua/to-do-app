@@ -22,6 +22,8 @@ class Config:
     STATIC_FOLDER = 'static'
     TEMPLATES_FOLDER = 'templates'
 
+    USER = os.getenv("USER")
+    PASSWORD = os.getenv("PASSWORD")
     HOST = '0.0.0.0'
     PORT = 5000
 
