@@ -7,8 +7,10 @@ from app.config import Config
 
 app = Flask(__name__)
 app.secret_key = Config.SECRET_KEY
+user = Config.USER
+password = Config.PASSWORD
 
-client = MongoClient('mongodb://mongodb:27017/dockerapp')
+client = MongoClient(f"mongodb+srv://{user}:{password}@cluster0.e4jzd92.mongodb.net/?retryWrites=true&w=majority", connectTimeoutMS=30000, socketTimeoutMS=None, connect=False, maxPoolsize=1)
 db = client.tododb
 collection_user = db.users
 collection_task = db.tasks
