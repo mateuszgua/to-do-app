@@ -20,7 +20,9 @@ def panel():
     try:
         if "user" not in session:
             is_user_login = None
-            return redirect(url_for("login"))
+            # return redirect(url_for("login"))
+            flash("Problem with get user from session!")
+            return render_template("login.html")
         is_user_login = session["user"]
         user_name = session["user"]["name"]
         tasks = [task for task in collection_task.find({"user": user_name})]
