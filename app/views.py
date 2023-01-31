@@ -17,25 +17,21 @@ def index():
 
 @app.route("/panel")
 def panel():
-    return render_template("panel.html")
-    # return render_template("panel.html", tasks=tasks, user_name=user_name, is_user_login=is_user_login)
+    try:
+        if "user" not in session:
+            is_user_login = None
+            return redirect(url_for("login"))
+        is_user_login = session["user"]
+        user_name = session["user"]["name"]
+        tasks = [task for task in collection_task.find({"user": user_name})]
+    except LoadTasksProblem:
+        error_description = LoadTasksProblem()
+        internal_server_error(error_description)
+        abort(500, error_description)
+    else:
+        return render_template("panel.html", tasks=tasks, user_name=user_name, is_user_login=is_user_login)
 
 
-# try:
-#         if "user" not in session:
-#             is_user_login = None
-#             return redirect(url_for("login"))
-#         is_user_login = session["user"]
-#         user_name = session["user"]["name"]
-#         tasks = [task for task in collection_task.find({"user": user_name})]
-#         if tasks is None:
-#             flash("No tasks in database!")
-#             return render_template("panel.html")
-#     except LoadTasksProblem:
-#         error_description = LoadTasksProblem()
-#         internal_server_error(error_description)
-#         abort(500, error_description)
-#     else:
 def start_session(user):
     del user["password"]
     session["logged_in"] = True
