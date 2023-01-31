@@ -24,6 +24,9 @@ def panel():
         is_user_login = session["user"]
         user_name = session["user"]["name"]
         tasks = [task for task in collection_task.find({"user": user_name})]
+        if tasks is None:
+            flash("No tasks in database!")
+            return render_template("panel.html")
     except LoadTasksProblem:
         error_description = LoadTasksProblem()
         internal_server_error(error_description)
