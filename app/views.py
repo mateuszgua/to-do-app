@@ -21,6 +21,7 @@ def panel():
         if session["logged_in"] == False:
             is_user_login = None
             # return redirect(url_for("login"))
+            flash(session["logged_in"])
             flash("Problem with get user from session!")
             return render_template("login.html")
         flash(session["logged_in"])
