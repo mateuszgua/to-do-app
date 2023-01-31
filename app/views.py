@@ -42,7 +42,6 @@ def start_session(user):
     del user["password"]
     session["logged_in"] = True
     session["user"] = user
-    session.permanent = True
     return jsonify(user), 200
 
 
