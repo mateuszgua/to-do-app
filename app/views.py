@@ -23,6 +23,7 @@ def panel():
             # return redirect(url_for("login"))
             flash("Problem with get user from session!")
             return render_template("login.html")
+        flash(session["logged_in"])
         is_user_login = session["user"]
         user_name = session["user"]["name"]
         tasks = [task for task in collection_task.find({"user": user_name})]
@@ -37,7 +38,7 @@ def panel():
 def start_session(user):
     del user["password"]
     session["logged_in"] = True
-    session["user"] = user["name"]
+    session["user"] = user
     # session.permanent = True
     return jsonify(user), 200
 
