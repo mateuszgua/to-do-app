@@ -42,7 +42,6 @@ def start_session(user):
     del user["password"]
     session["logged_in"] = True
     session["user"] = user
-    session.permanent = True
     return jsonify(user), 200
 
 
@@ -103,7 +102,6 @@ def register():
 def logout():
     session["logged_in"] = False
     session.pop("user", None)
-    session.permanent = False
     return redirect("/")
 
 

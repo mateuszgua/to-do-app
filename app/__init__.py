@@ -1,5 +1,4 @@
 import os
-from datetime import timedelta
 from flask import Flask
 from flask_pymongo import MongoClient
 from flask_session import Session
@@ -20,7 +19,6 @@ collection_task = db.tasks
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=2)
 Session(app)
 
 from app import views
