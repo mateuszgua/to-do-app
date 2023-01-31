@@ -11,8 +11,13 @@ from app.my_error import DatabaseWriteUserError, DatabaseWriteTaskError, Databas
 
 @app.route("/")
 def index():
-    is_user_login = None
-    return render_template("index.html", is_user_login=is_user_login)
+    if session["logged_in"] == False:
+        is_user_login = None
+        user_name = None
+    else:
+        is_user_login = session["user"]
+        user_name = session["user"]["name"]
+    return render_template("index.html", user_name=user_name, is_user_login=is_user_login)
 
 
 @app.route("/panel")
@@ -20,11 +25,8 @@ def panel():
     try:
         if session["logged_in"] == False:
             is_user_login = None
-            # return redirect(url_for("login"))
-            flash(session["logged_in"])
             flash("Problem with get user from session!")
             return render_template("login.html")
-        flash(session["logged_in"])
         is_user_login = session["user"]
         user_name = session["user"]["name"]
         tasks = [task for task in collection_task.find({"user": user_name})]
@@ -40,7 +42,7 @@ def start_session(user):
     del user["password"]
     session["logged_in"] = True
     session["user"] = user
-    # session.permanent = True
+    session.permanent = True
     return jsonify(user), 200
 
 
