@@ -103,6 +103,7 @@ def register():
 def logout():
     session["logged_in"] = False
     session.pop("user", None)
+    session.permanent = False
     return redirect("/")
 
 
