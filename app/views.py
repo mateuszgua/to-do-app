@@ -20,6 +20,8 @@ def panel():
     try:
         if "user" not in session:
             is_user_login = None
+            # flash("Problem for load session...")
+            # return render_template("login.html")
             return redirect(url_for("login"))
         is_user_login = session["user"]
         user_name = session["user"]["name"]
@@ -55,7 +57,7 @@ def login():
                 return render_template("login.html")
 
             flash("Invalid username")
-            return redirect(url_for("login"))
+            return render_template("login.html")
         except LoadUserProblem:
             error_description = LoadUserProblem()
             internal_server_error(error_description)
@@ -124,14 +126,11 @@ def create_task():
 @ app.route("/task/edit/<task_id>", methods=["POST"])
 def update_task(task_id):
     try:
-        select = request.form.get('status')
-        print(str(select))
         edit_name = request.form["name"]
         edit_description = request.form["description"]
         edit_start_date = request.form["start_date"]
         edit_end_date = request.form["end_date"]
         edit_status = request.form["status"]
-        # edit_status = request.form.get("status")
         edit_priority = request.form["priority"]
         response = collection_task.update_many({"id": ObjectId(task_id)},
                                                {"$set": {'name': edit_name,

@@ -24,6 +24,7 @@ class Config:
 
     USER = os.getenv("USER")
     PASSWORD = os.getenv("PASSWORD")
+    MONGODB_URI = os.getenv("MONGODB_URI")
     HOST = '0.0.0.0'
     PORT = 5000
 
