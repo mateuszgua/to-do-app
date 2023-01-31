@@ -16,9 +16,9 @@ def index():
 
 
 @app.route("/panel")
-def panel():
+def panel(user):
     try:
-        if "user" not in session:
+        if user["name"] not in session:
             is_user_login = None
             # return redirect(url_for("login"))
             flash("Problem with get user from session!")
@@ -37,7 +37,8 @@ def panel():
 def start_session(user):
     del user["password"]
     session["logged_in"] = True
-    session["user"] = user
+    session["user"] = user["name"]
+    # session.permanent = True
     return jsonify(user), 200
 
 
@@ -51,7 +52,7 @@ def login():
             if user:
                 if pbkdf2_sha256.verify(request.form["password"], user["password"]):
                     start_session(user)
-                    return redirect(url_for("panel"))
+                    return redirect(url_for("panel", user))
 
                 flash("Invalid username or password!")
                 return render_template("login.html")
@@ -83,7 +84,7 @@ def register():
             if existing_user is None:
                 collection_user.insert_one(user)
                 start_session(user)
-                return redirect(url_for("panel"))
+                return redirect(url_for("panel", user))
 
             flash("That username: " + user["name"] + " already exist!")
             return redirect(url_for('register'))
