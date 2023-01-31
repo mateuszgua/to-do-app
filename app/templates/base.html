@@ -16,8 +16,8 @@
             <a href="{{ url_for('index') }}" class="nav-link">TO DO APP</a>
             <div class="links">
                 <ul>
-                    <a href="{{ url_for('panel') }}" class="nav-link">Home</a>
                     {% if is_user_login is not none %}
+                    <a href="{{ url_for('panel') }}" class="nav-link">Home</a>
                     <a href="#" class="nav-text">{{ user_name }}</a>
                     <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
                     {% else %}
