@@ -11,13 +11,19 @@ from app.my_error import DatabaseWriteUserError, DatabaseWriteTaskError, Databas
 
 @app.route("/")
 def index():
-    if session["logged_in"] == False:
+    try:
+        if session["logged_in"] == False:
+            is_user_login = None
+            user_name = None
+        else:
+            is_user_login = session["user"]
+            user_name = session["user"]["name"]
+    except KeyError:
+        session["logged_in"] = False
         is_user_login = None
         user_name = None
     else:
-        is_user_login = session["user"]
-        user_name = session["user"]["name"]
-    return render_template("index.html", user_name=user_name, is_user_login=is_user_login)
+        return render_template("index.html", user_name=user_name, is_user_login=is_user_login)
 
 
 @app.route("/panel")
