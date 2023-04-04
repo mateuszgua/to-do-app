@@ -2,11 +2,14 @@ from flask import jsonify, request, render_template, redirect, url_for, session,
 from bson.objectid import ObjectId
 from passlib.hash import pbkdf2_sha256
 import uuid
+import os
 
 from app import app
 from app import collection_task, collection_user
 from app.my_error import LoadTasksProblem, LoadUserProblem
 from app.my_error import DatabaseWriteUserError, DatabaseWriteTaskError, DatabaseEditTaskError, DatabaseDeleteTaskError
+
+os.path.dirname('/var/task/flask_session/')
 
 
 @app.route("/")
