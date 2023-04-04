@@ -75,6 +75,22 @@ def start_session(user):
     return jsonify(user), 200
 
 
+def add_to_dict(dict_obj, key, value):
+    # Check if key exist in dict or not
+    if key in dict_obj:
+        # Key exist in dict.
+        # Check if type of value of key is list or not
+        if not isinstance(dict_obj[key], list):
+            # If type is not list then make it list
+            dict_obj[key] = [dict_obj[key]]
+        # Append the value in list
+        dict_obj[key].append(value)
+    else:
+        # As key is not in dict,
+        # so, add key-value pair
+        dict_obj[key] = value
+
+
 @ app.route("/login", methods=["POST", "GET"])
 def login():
     is_user_login = None
@@ -85,6 +101,8 @@ def login():
             if user:
                 if pbkdf2_sha256.verify(request.form["password"], user["password"]):
                     start_session(user)
+                    add_to_dict(session, 'user', user['username'])
+                    add_to_dict(session, 'logged_in', True)
                     return redirect(url_for("panel"))
 
                 flash("Invalid username or password!")
