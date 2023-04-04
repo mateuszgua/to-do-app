@@ -9,8 +9,6 @@ from app import collection_task, collection_user
 from app.my_error import LoadTasksProblem, LoadUserProblem
 from app.my_error import DatabaseWriteUserError, DatabaseWriteTaskError, DatabaseEditTaskError, DatabaseDeleteTaskError
 
-os.path.dirname('/var/task/flask_session/')
-
 
 @app.route("/")
 def index():
