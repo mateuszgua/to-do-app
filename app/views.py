@@ -8,22 +8,6 @@ from app import collection_task, collection_user
 from app.my_error import LoadTasksProblem, LoadUserProblem
 from app.my_error import DatabaseWriteUserError, DatabaseWriteTaskError, DatabaseEditTaskError, DatabaseDeleteTaskError
 
-# @app.route("/")
-# def index():
-#     try:
-#         if session["logged_in"] == False:
-#             is_user_login = None
-#             user_name = None
-#         else:
-#             is_user_login = session["user"]
-#             user_name = session["user"]["name"]
-#     except KeyError:
-#         session["logged_in"] = False
-#         is_user_login = None
-#         user_name = None
-#     else:
-#         return render_template("index.html", user_name=user_name, is_user_login=is_user_login)
-
 
 @app.route("/")
 def index():
@@ -41,7 +25,7 @@ def main():
             user_name = None
         else:
             is_user_login = session["user"]
-            user_name = session["user"]["name"]
+            user_name = session["user"][0]["name"]
     except KeyError:
         session["logged_in"] = False
         is_user_login = None
@@ -58,7 +42,7 @@ def panel():
             flash("Problem with get user from session!")
             return render_template("login.html")
         is_user_login = session["user"]
-        user_name = session["user"]["name"]
+        user_name = session["user"][0]["name"]
         tasks = [task for task in collection_task.find({"user": user_name})]
     except LoadTasksProblem:
         error_description = LoadTasksProblem()
@@ -101,7 +85,7 @@ def login():
             if user:
                 if pbkdf2_sha256.verify(request.form["password"], user["password"]):
                     start_session(user)
-                    add_to_dict(session, 'user', user['username'])
+                    add_to_dict(session, 'user', user['name'])
                     add_to_dict(session, 'logged_in', True)
                     return redirect(url_for("panel"))
 
@@ -158,7 +142,7 @@ def create_task():
     try:
         task_doc = {
             'id': ObjectId(),
-            'user': session["user"]["name"],
+            'user': session["user"][0]["name"],
             'name': request.form["name"],
             'description': request.form["description"],
             'start_date': request.form["start_date"],
