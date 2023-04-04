@@ -8,22 +8,6 @@ from app import collection_task, collection_user
 from app.my_error import LoadTasksProblem, LoadUserProblem
 from app.my_error import DatabaseWriteUserError, DatabaseWriteTaskError, DatabaseEditTaskError, DatabaseDeleteTaskError
 
-# @app.route("/")
-# def index():
-#     try:
-#         if session["logged_in"] == False:
-#             is_user_login = None
-#             user_name = None
-#         else:
-#             is_user_login = session["user"]
-#             user_name = session["user"]["name"]
-#     except KeyError:
-#         session["logged_in"] = False
-#         is_user_login = None
-#         user_name = None
-#     else:
-#         return render_template("index.html", user_name=user_name, is_user_login=is_user_login)
-
 
 @app.route("/")
 def index():
@@ -41,7 +25,7 @@ def main():
             user_name = None
         else:
             is_user_login = session["user"]
-            user_name = session["user"]["name"]
+            user_name = session["user"][0]["name"]
     except KeyError:
         session["logged_in"] = False
         is_user_login = None
@@ -58,7 +42,7 @@ def panel():
             flash("Problem with get user from session!")
             return render_template("login.html")
         is_user_login = session["user"]
-        user_name = session["user"]["name"]
+        user_name = session["user"][0]["name"]
         tasks = [task for task in collection_task.find({"user": user_name})]
     except LoadTasksProblem:
         error_description = LoadTasksProblem()
@@ -75,6 +59,22 @@ def start_session(user):
     return jsonify(user), 200
 
 
+def add_to_dict(dict_obj, key, value):
+    # Check if key exist in dict or not
+    if key in dict_obj:
+        # Key exist in dict.
+        # Check if type of value of key is list or not
+        if not isinstance(dict_obj[key], list):
+            # If type is not list then make it list
+            dict_obj[key] = [dict_obj[key]]
+        # Append the value in list
+        dict_obj[key].append(value)
+    else:
+        # As key is not in dict,
+        # so, add key-value pair
+        dict_obj[key] = value
+
+
 @ app.route("/login", methods=["POST", "GET"])
 def login():
     is_user_login = None
@@ -85,6 +85,8 @@ def login():
             if user:
                 if pbkdf2_sha256.verify(request.form["password"], user["password"]):
                     start_session(user)
+                    add_to_dict(session, 'user', user['name'])
+                    add_to_dict(session, 'logged_in', True)
                     return redirect(url_for("panel"))
 
                 flash("Invalid username or password!")
@@ -140,7 +142,7 @@ def create_task():
     try:
         task_doc = {
             'id': ObjectId(),
-            'user': session["user"]["name"],
+            'user': session["user"][0]["name"],
             'name': request.form["name"],
             'description': request.form["description"],
             'start_date': request.form["start_date"],
