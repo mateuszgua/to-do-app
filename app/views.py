@@ -11,7 +11,8 @@ from app.my_error import DatabaseWriteUserError, DatabaseWriteTaskError, Databas
 
 @app.route("/")
 def index():
-    session["logged_in"] = False
+    session.pop('user', None)
+    session.pop('logged_in', False)
     is_user_login = None
     user_name = None
     return render_template("index.html", user_name=user_name, is_user_login=is_user_login)
@@ -133,6 +134,7 @@ def register():
 @ app.route("/logout")
 def logout():
     session["logged_in"] = False
+    session.pop("logged_in", False)
     session.pop("user", None)
     return redirect("/")
 
